@@ -1,0 +1,107 @@
+"use client"
+
+import { Suspense, useState, useCallback } from "react"
+import { useSearchParams, useRouter } from "next/navigation"
+import { GraduationCap } from "lucide-react"
+import { useOpportunities } from "@/hooks/use-opportunities"
+import { OpportunityFiltersComponent } from "@/components/opportunities/opportunity-filters"
+import { OpportunityGrid } from "@/components/opportunities/opportunity-grid"
+import { Pagination } from "@/components/shared/pagination"
+import { PageLoader } from "@/components/shared/loading-spinner"
+import type { OpportunityFilters } from "@/types/opportunity"
+import { DegreeLevel, OpportunityType, FundingType } from "@/lib/constants"
+
+function parseFiltersFromParams(searchParams: URLSearchParams): OpportunityFilters {
+  return {
+    search: searchParams.get("search") || undefined,
+    country: searchParams.get("country") || undefined,
+    degreeLevel: (searchParams.get("degreeLevel") as DegreeLevel) || undefined,
+    opportunityType: (searchParams.get("opportunityType") as OpportunityType) || undefined,
+    fundingType: (searchParams.get("fundingType") as FundingType) || undefined,
+    sortBy: (searchParams.get("sortBy") as "createdAt" | "deadline") || "createdAt",
+    sortOrder: (searchParams.get("sortOrder") as "ASC" | "DESC") || "DESC",
+    page: Number(searchParams.get("page")) || 1,
+    limit: Number(searchParams.get("limit")) || 12,
+  }
+}
+
+function filtersToParams(filters: OpportunityFilters): string {
+  const params = new URLSearchParams()
+  if (filters.search) params.set("search", filters.search)
+  if (filters.country) params.set("country", filters.country)
+  if (filters.degreeLevel) params.set("degreeLevel", filters.degreeLevel)
+  if (filters.opportunityType) params.set("opportunityType", filters.opportunityType)
+  if (filters.fundingType) params.set("fundingType", filters.fundingType)
+  if (filters.sortBy && filters.sortBy !== "createdAt") params.set("sortBy", filters.sortBy)
+  if (filters.sortOrder && filters.sortOrder !== "DESC") params.set("sortOrder", filters.sortOrder)
+  if (filters.page && filters.page > 1) params.set("page", String(filters.page))
+  return params.toString()
+}
+
+function OpportunitiesContent() {
+  const searchParams = useSearchParams()
+  const router = useRouter()
+
+  const [filters, setFilters] = useState<OpportunityFilters>(() =>
+    parseFiltersFromParams(searchParams)
+  )
+
+  const { data, isLoading } = useOpportunities(filters)
+
+  const handleFiltersChange = useCallback(
+    (newFilters: OpportunityFilters) => {
+      setFilters(newFilters)
+      const queryString = filtersToParams(newFilters)
+      router.push(queryString ? `?${queryString}` : "/opportunities", { scroll: false })
+    },
+    [router]
+  )
+
+  const handlePageChange = useCallback(
+    (page: number) => {
+      handleFiltersChange({ ...filters, page })
+    },
+    [filters, handleFiltersChange]
+  )
+
+  const opportunities = data?.data ?? []
+  const totalPages = data?.totalPages ?? 0
+  const currentPage = data?.page ?? filters.page ?? 1
+
+  return (
+    <div className="container mx-auto px-4 py-8 space-y-8">
+      <div className="space-y-2">
+        <div className="flex items-center gap-2">
+          <GraduationCap className="h-7 w-7" />
+          <h1 className="text-3xl font-bold tracking-tight">Discover Opportunities</h1>
+        </div>
+        <p className="text-muted-foreground">
+          Browse and filter graduate scholarships, fellowships, and funded programs worldwide.
+        </p>
+      </div>
+
+      <OpportunityFiltersComponent filters={filters} onChange={handleFiltersChange} />
+
+      {isLoading ? (
+        <PageLoader />
+      ) : (
+        <>
+          <OpportunityGrid opportunities={opportunities} showSaveButton />
+          <Pagination
+            page={currentPage}
+            totalPages={totalPages}
+            onPageChange={handlePageChange}
+          />
+        </>
+      )}
+    </div>
+  )
+}
+
+export default function OpportunitiesPage() {
+  return (
+    <Suspense fallback={<PageLoader />}>
+      <OpportunitiesContent />
+    </Suspense>
+  )
+}

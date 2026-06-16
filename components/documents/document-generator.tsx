@@ -1,0 +1,187 @@
+"use client"
+
+import { useState } from "react"
+import { useGenerateDocument } from "@/hooks/use-documents"
+import { DocumentType, DOCUMENT_TYPE_LABELS } from "@/lib/constants"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { Textarea } from "@/components/ui/textarea"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
+import { Loader2, FileText, Sparkles } from "lucide-react"
+import type { GenerateDocumentRequest } from "@/types/document"
+import type { Document } from "@/types/document"
+
+const PROMPT_PLACEHOLDERS: Record<DocumentType, string> = {
+  [DocumentType.CV]:
+    "Describe your academic background, research experience, and key achievements to generate a professional academic CV...",
+  [DocumentType.SOP]:
+    "Describe your motivation, academic goals, and why you are a strong candidate for this program...",
+  [DocumentType.RESEARCH_PROPOSAL]:
+    "Describe your research topic, methodology, expected outcomes, and significance of the research...",
+}
+
+export function DocumentGenerator() {
+  const [type, setType] = useState<DocumentType | null>(null)
+  const [prompt, setPrompt] = useState("")
+  const [opportunityId, setOpportunityId] = useState("")
+  const [generatedDocument, setGeneratedDocument] = useState<Document | null>(null)
+
+  const { mutate: generateDocument, isPending } = useGenerateDocument()
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+
+    if (!type) return
+
+    const data: GenerateDocumentRequest = {
+      type,
+      prompt,
+      opportunityId: opportunityId || undefined,
+    }
+
+    generateDocument(data, {
+      onSuccess: (response) => {
+        if (response.data) {
+          setGeneratedDocument(response.data)
+        }
+      },
+    })
+  }
+
+  const isValid = type && prompt.length >= 10 && prompt.length <= 5000
+
+  return (
+    <div className="space-y-6 max-w-3xl">
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <Sparkles className="h-5 w-5 text-primary" />
+            Document Settings
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div className="space-y-2">
+              <Label>Document Type</Label>
+              <Select
+                value={type}
+                onValueChange={(val) => {
+                  if (val) setType(val as DocumentType)
+                }}
+              >
+                <SelectTrigger className="w-full">
+                  <SelectValue placeholder="Select document type" />
+                </SelectTrigger>
+                <SelectContent>
+                  {Object.values(DocumentType).map((docType) => (
+                    <SelectItem key={docType} value={docType}>
+                      {DOCUMENT_TYPE_LABELS[docType]}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="prompt">
+                Prompt{" "}
+                <span className="text-muted-foreground font-normal">
+                  ({prompt.length}/5000)
+                </span>
+              </Label>
+              <Textarea
+                id="prompt"
+                placeholder={
+                  type
+                    ? PROMPT_PLACEHOLDERS[type]
+                    : "Select a document type first..."
+                }
+                value={prompt}
+                onChange={(e) => setPrompt(e.target.value)}
+                rows={6}
+                minLength={10}
+                maxLength={5000}
+                required
+              />
+              {prompt.length > 0 && prompt.length < 10 && (
+                <p className="text-xs text-destructive">
+                  Prompt must be at least 10 characters.
+                </p>
+              )}
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="opportunityId">
+                Opportunity ID{" "}
+                <span className="text-muted-foreground font-normal">(optional)</span>
+              </Label>
+              <Input
+                id="opportunityId"
+                placeholder="Enter an opportunity UUID to tailor the document"
+                value={opportunityId}
+                onChange={(e) => setOpportunityId(e.target.value)}
+              />
+              <p className="text-xs text-muted-foreground">
+                Provide an opportunity ID to generate a document tailored to a specific scholarship.
+              </p>
+            </div>
+
+            <Button type="submit" disabled={!isValid || isPending} className="w-full">
+              {isPending ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Generating your document...
+                </>
+              ) : (
+                <>
+                  <Sparkles className="mr-2 h-4 w-4" />
+                  Generate Document
+                </>
+              )}
+            </Button>
+          </form>
+        </CardContent>
+      </Card>
+
+      {isPending && (
+        <Card>
+          <CardContent className="flex flex-col items-center justify-center py-12 gap-4">
+            <Loader2 className="h-8 w-8 animate-spin text-primary" />
+            <div className="text-center">
+              <p className="font-semibold">Generating your document...</p>
+              <p className="text-sm text-muted-foreground">
+                This may take a moment. Our AI is crafting your personalized document.
+              </p>
+            </div>
+          </CardContent>
+        </Card>
+      )}
+
+      {generatedDocument && !isPending && (
+        <Card>
+          <CardHeader>
+            <div className="flex items-center gap-2">
+              <FileText className="h-5 w-5 text-green-600" />
+              <CardTitle>{generatedDocument.title}</CardTitle>
+            </div>
+          </CardHeader>
+          <CardContent>
+            <div className="rounded-md bg-muted/50 p-4">
+              <pre className="whitespace-pre-wrap text-sm leading-relaxed font-sans">
+                {generatedDocument.content}
+              </pre>
+            </div>
+          </CardContent>
+        </Card>
+      )}
+    </div>
+  )
+}
