@@ -23,19 +23,19 @@ export function HeroSection() {
             AI-Powered Scholarship Discovery
           </div>
           <h1 className="text-4xl md:text-6xl font-bold tracking-tight mb-6">
-            Find Your Path to{" "}
+            Unlock Fully Funded Graduate{" "}
             <span className="bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
-              Graduate Success
+              Opportunities Worldwide
             </span>
           </h1>
           <p className="text-lg md:text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
             Discover scholarships, fellowships, and funded graduate programs worldwide.
-            Let AI help you find and apply for the opportunities that match your goals.
+            Find perfect-match opportunities and generate professional application documents in minutes with AI
           </p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <Button size="lg" onClick={() => router.push(ROUTES.OPPORTUNITIES)} className="gap-2">
               <Search className="h-4 w-4" />
-              Browse Opportunities
+              Explore Opportunities
             </Button>
             <Button size="lg" variant="outline" onClick={() => router.push(ROUTES.DASHBOARD_NEW_OPPORTUNITY)} className="gap-2">
               <Plus className="h-4 w-4" />
