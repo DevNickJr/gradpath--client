@@ -26,6 +26,7 @@ import {
   OPPORTUNITY_TYPE_LABELS,
 } from "@/lib/constants"
 import { cn, formatDate, daysUntil } from "@/lib/utils"
+import Link from "next/link"
 
 interface OpportunityDetailPageProps {
   params: Promise<{ id: string }>
@@ -172,6 +173,8 @@ export default function OpportunityDetailPage({ params }: OpportunityDetailPageP
                 Apply Now
               </a>
 
+           
+
               {isAuthenticated && (
                 <>
                   <Button
@@ -199,6 +202,12 @@ export default function OpportunityDetailPage({ params }: OpportunityDetailPageP
                   </Button>
                 </>
               )}
+              <Link href={`${ROUTES.DASHBOARD_NEW_DOCUMENT}?opportunityId=${id}`}>
+                <Button variant="outline" className="w-full">
+                    Generate a Document
+                </Button>
+              </Link>
+
 
               {opportunity.sourceUrl && (
                 <a

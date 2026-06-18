@@ -1,8 +1,8 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useGenerateDocument } from "@/hooks/use-documents"
-import { DocumentType, DOCUMENT_TYPE_LABELS } from "@/lib/constants"
+import { DocumentType, DOCUMENT_TYPE_LABELS, ROUTES } from "@/lib/constants"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -18,6 +18,8 @@ import {
 import { Loader2, FileText, Sparkles } from "lucide-react"
 import type { GenerateDocumentRequest } from "@/types/document"
 import type { Document } from "@/types/document"
+import { useSearchParams } from "next/navigation"
+import Link from "next/link"
 
 const PROMPT_PLACEHOLDERS: Record<DocumentType, string> = {
   [DocumentType.CV]:
@@ -29,11 +31,12 @@ const PROMPT_PLACEHOLDERS: Record<DocumentType, string> = {
 }
 
 export function DocumentGenerator() {
+  const searchParams = useSearchParams()
   const [type, setType] = useState<DocumentType | null>(null)
   const [prompt, setPrompt] = useState("")
-  const [opportunityId, setOpportunityId] = useState("")
+  const [opportunityId, setOpportunityId] = useState(searchParams.get('opportunityId') || '')
   const [generatedDocument, setGeneratedDocument] = useState<Document | null>(null)
-
+  
   const { mutate: generateDocument, isPending } = useGenerateDocument()
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -56,7 +59,7 @@ export function DocumentGenerator() {
     })
   }
 
-  const isValid = type && prompt.length >= 10 && prompt.length <= 5000
+  const isValid = type && (opportunityId || prompt.length >= 10 && prompt.length <= 5000);
 
   return (
     <div className="space-y-6 max-w-3xl">
@@ -91,11 +94,31 @@ export function DocumentGenerator() {
             </div>
 
             <div className="space-y-2">
+              <Label htmlFor="opportunityId">
+                Opportunity{" "}
+                {/* <span className="text-muted-foreground font-normal">(optional)</span> */}
+              </Label>
+              <Input
+                id="opportunityId"
+                placeholder="No opportunity Selected"
+                value={opportunityId}
+                onChange={(e) => setOpportunityId(e.target.value)}
+                disabled
+              />
+              <p className="text-xs text-muted-foreground">
+                Select an opportunity to tailor the document to its requirements, eligibility criteria, and objectives. {" "}
+                <Link href={ROUTES.OPPORTUNITIES} className="text-primary text-xs underline">
+                  Browse Opportunities
+                </Link>
+              </p>
+            </div>
+            <div className="space-y-2">
               <Label htmlFor="prompt">
-                Prompt{" "}
+                Prompt
                 <span className="text-muted-foreground font-normal">
-                  ({prompt.length}/5000)
+                [{prompt.length}/5000]
                 </span>
+                <span className="text-muted-foreground font-normal">(optional)</span>
               </Label>
               <Textarea
                 id="prompt"
@@ -117,23 +140,6 @@ export function DocumentGenerator() {
                 </p>
               )}
             </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="opportunityId">
-                Opportunity ID{" "}
-                <span className="text-muted-foreground font-normal">(optional)</span>
-              </Label>
-              <Input
-                id="opportunityId"
-                placeholder="Enter an opportunity UUID to tailor the document"
-                value={opportunityId}
-                onChange={(e) => setOpportunityId(e.target.value)}
-              />
-              <p className="text-xs text-muted-foreground">
-                Provide an opportunity ID to generate a document tailored to a specific scholarship.
-              </p>
-            </div>
-
             <Button type="submit" disabled={!isValid || isPending} className="w-full">
               {isPending ? (
                 <>

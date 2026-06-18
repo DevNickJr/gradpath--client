@@ -16,6 +16,6 @@ export interface Document {
 
 export interface GenerateDocumentRequest {
   type: DocumentType
-  prompt: string
+  prompt?: string
   opportunityId?: string
 }
