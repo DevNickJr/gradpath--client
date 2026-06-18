@@ -6,18 +6,19 @@ import { documentService } from "@/services/document.service"
 import type { GenerateDocumentRequest } from "@/types/document"
 
 export function useDocuments(page = 1, limit = 20) {
-  return useFetch(
-    ["documents", String(page), String(limit)],
-    () => documentService.getDocuments(page, limit)
-  )
+  return useFetch({
+    queryKey: ["documents", page, limit],
+    queryFn: () => documentService.getDocuments(page, limit),
+    options: { }
+  })
 }
 
 export function useDocument(id: string) {
-  return useFetch(
-    ["document", id],
-    () => documentService.getDocument(id),
-    { enabled: !!id }
-  )
+  return useFetch({
+    queryKey: ["document", id],
+    queryFn: () => documentService.getDocument(id),
+    options: { enabled: !!id }
+  })
 }
 
 export function useGenerateDocument() {

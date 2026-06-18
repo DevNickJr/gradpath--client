@@ -1,22 +1,28 @@
 "use client"
 
+import { useAuth } from "./use-auth"
 import { useFetch } from "./use-fetch"
 import { useMutationAction } from "./use-mutation"
 import { savedOpportunityService } from "@/services/saved-opportunity.service"
 
 export function useSavedOpportunities(page = 1, limit = 20) {
-  return useFetch(
-    ["saved-opportunities", String(page), String(limit)],
-    () => savedOpportunityService.getSavedOpportunities(page, limit)
-  )
+  const { isAuthenticated } = useAuth()
+  
+  return useFetch({
+    queryKey: ["saved-opportunities", page, limit],
+    queryFn: () => savedOpportunityService.getSavedOpportunities(page, limit),
+    options: { enabled: !!isAuthenticated }
+  })
 }
 
 export function useSaveStatus(opportunityId: string) {
-  return useFetch(
-    ["save-status", opportunityId],
-    () => savedOpportunityService.getSaveStatus(opportunityId),
-    { enabled: !!opportunityId }
-  )
+  const { isAuthenticated } = useAuth()
+
+  return useFetch({
+    queryKey: ["save-status", opportunityId],
+    queryFn: () => savedOpportunityService.getSaveStatus(opportunityId),
+    options: { enabled: !!opportunityId && !!isAuthenticated }
+  })
 }
 
 export function useToggleSave() {

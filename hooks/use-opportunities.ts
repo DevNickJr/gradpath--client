@@ -6,18 +6,18 @@ import { opportunityService } from "@/services/opportunity.service"
 import type { OpportunityFilters, CreateOpportunityRequest, UpdateOpportunityRequest } from "@/types/opportunity"
 
 export function useOpportunities(filters?: OpportunityFilters) {
-  return useFetch(
-    ["opportunities", JSON.stringify(filters)],
-    () => opportunityService.getOpportunities(filters)
-  )
+  return useFetch({
+    queryKey: ["opportunities", JSON.stringify(filters)],
+    queryFn: () => opportunityService.getOpportunities(filters)
+  })
 }
 
 export function useOpportunity(id: string) {
-  return useFetch(
-    ["opportunity", id],
-    () => opportunityService.getOpportunity(id),
-    { enabled: !!id }
-  )
+  return useFetch({
+    queryKey: ["opportunity", id],
+    queryFn: () => opportunityService.getOpportunity(id),
+    options: { enabled: !!id }
+  })
 }
 
 export function useCreateOpportunity() {

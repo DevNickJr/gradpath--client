@@ -10,7 +10,7 @@ import { Heart } from "lucide-react"
 
 export default function SavedOpportunitiesPage() {
   const [page, setPage] = useState(1)
-  const { data, isLoading } = useSavedOpportunities(page, 12)
+  const { data, isLoading } = useSavedOpportunities(page)
 
   if (isLoading) {
     return <PageLoader />
@@ -19,10 +19,17 @@ export default function SavedOpportunitiesPage() {
   const savedItems = data?.data ?? []
   const totalPages = data?.totalPages ?? 1
 
+
   const opportunities = savedItems
     .filter((item) => item.opportunity)
     .map((item) => item.opportunity!)
 
+  
+  console.log({
+    opportunities,
+    savedItems,
+    totalPages
+  })
   return (
     <div className="space-y-6">
       <div>
