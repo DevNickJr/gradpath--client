@@ -17,6 +17,7 @@ export const ROUTES = {
   DASHBOARD_SAVED: "/dashboard/saved",
   DASHBOARD_APPLICATIONS: "/dashboard/applications",
   DASHBOARD_DOCUMENTS: "/dashboard/documents",
+  DASHBOARD_DOCUMENT: (id: string) => `/dashboard/documents/${id}`,
   DASHBOARD_NEW_DOCUMENT: "/dashboard/documents/new",
   DASHBOARD_NOTIFICATIONS: "/dashboard/notifications",
 } as const

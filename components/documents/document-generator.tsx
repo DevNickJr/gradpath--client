@@ -132,7 +132,6 @@ export function DocumentGenerator() {
                 rows={6}
                 minLength={10}
                 maxLength={5000}
-                required
               />
               {prompt.length > 0 && prompt.length < 10 && (
                 <p className="text-xs text-destructive">

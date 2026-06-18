@@ -79,34 +79,39 @@ export default function DocumentsPage() {
         <>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {documents.map((doc: Document) => (
-              <Card key={doc.id}>
-                <CardHeader>
-                  <div className="flex items-start justify-between gap-2">
-                    <CardTitle className="line-clamp-1">{doc.title}</CardTitle>
-                    <Button
-                      variant="destructive"
-                      size="icon-sm"
-                      onClick={() => handleDelete(doc.id)}
-                      disabled={isDeleting}
-                    >
-                      <Trash2 className="h-3.5 w-3.5" />
-                    </Button>
-                  </div>
-                </CardHeader>
-                <CardContent className="space-y-3">
-                  <div className="flex flex-wrap gap-1.5">
-                    <Badge variant="secondary">
-                      {DOCUMENT_TYPE_LABELS[doc.type]}
-                    </Badge>
-                    <Badge className={getStatusColor(doc.status)}>
-                      {DOCUMENT_STATUS_LABELS[doc.status]}
-                    </Badge>
-                  </div>
-                  <p className="text-xs text-muted-foreground">
-                    Created: {formatDate(doc.createdAt)}
-                  </p>
-                </CardContent>
-              </Card>
+               <Link
+                key={doc.id}
+                href={ROUTES.DASHBOARD_DOCUMENT(doc.id)}
+              >
+                <Card >
+                  <CardHeader>
+                    <div className="flex items-start justify-between gap-2">
+                      <CardTitle className="line-clamp-1">{doc.title}</CardTitle>
+                      <Button
+                        variant="destructive"
+                        size="icon-sm"
+                        onClick={() => handleDelete(doc.id)}
+                        disabled={isDeleting}
+                      >
+                        <Trash2 className="h-3.5 w-3.5" />
+                      </Button>
+                    </div>
+                  </CardHeader>
+                  <CardContent className="space-y-3">
+                    <div className="flex flex-wrap gap-1.5">
+                      <Badge variant="secondary">
+                        {DOCUMENT_TYPE_LABELS[doc.type]}
+                      </Badge>
+                      <Badge className={getStatusColor(doc.status)}>
+                        {DOCUMENT_STATUS_LABELS[doc.status]}
+                      </Badge>
+                    </div>
+                    <p className="text-xs text-muted-foreground">
+                      Created: {formatDate(doc.createdAt)}
+                    </p>
+                  </CardContent>
+                </Card>
+              </Link>
             ))}
           </div>
           <Pagination page={page} totalPages={totalPages} onPageChange={setPage} />
