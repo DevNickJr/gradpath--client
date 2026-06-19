@@ -20,7 +20,7 @@ import { buttonVariants } from "@/components/ui/button"
 const SIDEBAR_LINKS = [
   { href: ROUTES.DASHBOARD, label: "Overview", icon: LayoutDashboard, exact: true },
   { href: ROUTES.DASHBOARD_PROFILE, label: "Profile", icon: User },
-  { href: ROUTES.DASHBOARD_OPPORTUNITIES, label: "My Opportunities", icon: GraduationCap, adminOnly: true },
+  { href: ROUTES.DASHBOARD_OPPORTUNITIES, label: "Manage Opportunities", icon: GraduationCap, adminOnly: true },
   { href: ROUTES.DASHBOARD_SAVED, label: "Saved", icon: Heart },
   { href: ROUTES.DASHBOARD_APPLICATIONS, label: "Applications", icon: ClipboardList },
   { href: ROUTES.DASHBOARD_DOCUMENTS, label: "Documents", icon: FileText },

@@ -10,6 +10,7 @@ export interface UserProfile {
   degree?: string
   fieldOfStudy?: string
   gpa?: number
+  gpaScale?: number
   graduationYear?: number
   countryOfOrigin?: string
   targetCountries?: string[]

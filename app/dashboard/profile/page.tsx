@@ -34,6 +34,7 @@ export default function ProfilePage() {
   const [degree, setDegree] = useState("")
   const [fieldOfStudy, setFieldOfStudy] = useState("")
   const [gpa, setGpa] = useState("")
+  const [gpaScale, setGpaScale] = useState("")
   const [graduationYear, setGraduationYear] = useState("")
   const [countryOfOrigin, setCountryOfOrigin] = useState("")
   const [targetCountries, setTargetCountries] = useState("")
@@ -54,6 +55,7 @@ export default function ProfilePage() {
       setDegree(p.degree ?? "")
       setFieldOfStudy(p.fieldOfStudy ?? "")
       setGpa(p.gpa != null ? String(p.gpa) : "")
+      setGpaScale(p.gpaScale != null ? String(p.gpaScale) : "")
       setGraduationYear(p.graduationYear != null ? String(p.graduationYear) : "")
       setCountryOfOrigin(p.countryOfOrigin ?? "")
       setTargetCountries(p.targetCountries?.join(", ") ?? "")
@@ -192,7 +194,7 @@ export default function ProfilePage() {
               <Label htmlFor="university">University</Label>
               <Input
                 id="university"
-                placeholder="Massachusetts Institute of Technology"
+                placeholder="Niger Delta University"
                 value={university}
                 onChange={(e) => setUniversity(e.target.value)}
               />
@@ -222,13 +224,13 @@ export default function ProfilePage() {
                 <Label htmlFor="fieldOfStudy">Field of Study</Label>
                 <Input
                   id="fieldOfStudy"
-                  placeholder="Computer Science"
+                  placeholder="Mechanical Engineering"
                   value={fieldOfStudy}
                   onChange={(e) => setFieldOfStudy(e.target.value)}
                 />
               </div>
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="gpa">GPA</Label>
                 <Input
@@ -236,10 +238,23 @@ export default function ProfilePage() {
                   type="number"
                   step="0.01"
                   min="0"
-                  max="4"
-                  placeholder="3.85"
+                  max="5"
+                  placeholder="4.69"
                   value={gpa}
                   onChange={(e) => setGpa(e.target.value)}
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="gpaScale">GPA Scale</Label>
+                <Input
+                  id="gpaScale"
+                  type="number"
+                  step="1"
+                  min="4"
+                  max="5"
+                  placeholder="5.0"
+                  value={gpaScale}
+                  onChange={(e) => setGpaScale(e.target.value)}
                 />
               </div>
               <div className="space-y-2">
