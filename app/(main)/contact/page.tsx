@@ -34,7 +34,7 @@ export default function ContactPage() {
               <Mail className="h-5 w-5 text-primary mt-0.5" />
               <div>
                 <p className="font-medium">Email</p>
-                <p className="text-sm text-muted-foreground">support@gradpath.com</p>
+                <p className="text-sm text-muted-foreground">gradpath@gmail.com</p>
               </div>
             </CardContent>
           </Card>
@@ -43,7 +43,8 @@ export default function ContactPage() {
               <Phone className="h-5 w-5 text-primary mt-0.5" />
               <div>
                 <p className="font-medium">Phone</p>
-                <p className="text-sm text-muted-foreground">+1 (555) 123-4567</p>
+                <p className="text-sm text-muted-foreground">+234 (815) 188-4043</p>
+                <p className="text-sm text-muted-foreground">+234 (903) 339-8824</p>
               </div>
             </CardContent>
           </Card>
@@ -52,7 +53,7 @@ export default function ContactPage() {
               <MapPin className="h-5 w-5 text-primary mt-0.5" />
               <div>
                 <p className="font-medium">Address</p>
-                <p className="text-sm text-muted-foreground">123 Academic Lane, Education City</p>
+                <p className="text-sm text-muted-foreground">No. 8 Johnson Adegoke Street, Unity Estate, off Badore road, Ajah, Lagos</p>
               </div>
             </CardContent>
           </Card>
