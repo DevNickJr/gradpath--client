@@ -28,6 +28,12 @@ const PROMPT_PLACEHOLDERS: Record<DocumentType, string> = {
     "Describe your motivation, academic goals, and why you are a strong candidate for this program...",
   [DocumentType.RESEARCH_PROPOSAL]:
     "Describe your research topic, methodology, expected outcomes, and significance of the research...",
+  [DocumentType.COLD_EMAIL]:
+    "Describe the supervisor you want to contact, their research area, and why you are interested in their work...",
+  [DocumentType.FEE_WAIVER]:
+    "Describe your financial situation and academic achievements that justify a fee waiver request...",
+  [DocumentType.PERSONAL_STATEMENT]:
+    "Share your personal story, motivations, challenges overcome, and what drives your academic journey...",
 }
 
 export function DocumentGenerator() {

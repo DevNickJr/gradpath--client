@@ -27,6 +27,7 @@ import {
 } from "@/lib/constants"
 import { cn, formatDate, daysUntil } from "@/lib/utils"
 import Link from "next/link"
+import { CommentSection } from "@/components/comments/comment-section"
 
 interface OpportunityDetailPageProps {
   params: Promise<{ id: string }>
@@ -135,6 +136,10 @@ export default function OpportunityDetailPage({ params }: OpportunityDetailPageP
               </div>
             </>
           )}
+
+          <Separator />
+
+          <CommentSection opportunityId={id} />
         </div>
 
         {/* Sidebar */}

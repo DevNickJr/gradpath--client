@@ -20,6 +20,9 @@ export const ROUTES = {
   DASHBOARD_DOCUMENT: (id: string) => `/dashboard/documents/${id}`,
   DASHBOARD_NEW_DOCUMENT: "/dashboard/documents/new",
   DASHBOARD_NOTIFICATIONS: "/dashboard/notifications",
+  DASHBOARD_INQUIRIES: "/dashboard/inquiries",
+  DASHBOARD_INQUIRY_NEW: "/dashboard/inquiries/new",
+  DASHBOARD_INQUIRY_DETAIL: (id: string) => `/dashboard/inquiries/${id}`,
 } as const
 
 export enum OpportunityType {
@@ -56,6 +59,9 @@ export enum DocumentType {
   CV = "cv",
   SOP = "sop",
   RESEARCH_PROPOSAL = "research_proposal",
+  COLD_EMAIL = "cold_email",
+  FEE_WAIVER = "fee_waiver",
+  PERSONAL_STATEMENT = "personal_statement",
 }
 
 export enum DocumentStatus {
@@ -114,6 +120,9 @@ export const DOCUMENT_TYPE_LABELS: Record<DocumentType, string> = {
   [DocumentType.CV]: "Academic CV",
   [DocumentType.SOP]: "Statement of Purpose",
   [DocumentType.RESEARCH_PROPOSAL]: "Research Proposal",
+  [DocumentType.COLD_EMAIL]: "Cold Email to Supervisor",
+  [DocumentType.FEE_WAIVER]: "Fee Waiver Request",
+  [DocumentType.PERSONAL_STATEMENT]: "Personal Statement",
 }
 
 export const DOCUMENT_STATUS_LABELS: Record<DocumentStatus, string> = {
@@ -130,5 +139,20 @@ export const ROLE_LABELS: Record<RolesEnum, string> = {
 }
 
 export const ADMIN_ROLES = [RolesEnum.ADMIN, RolesEnum.AGENT]
+
+export enum InquiryStatus {
+  OPEN = "open",
+  RESOLVED = "resolved",
+}
+
+export const INQUIRY_STATUS_LABELS: Record<InquiryStatus, string> = {
+  [InquiryStatus.OPEN]: "Open",
+  [InquiryStatus.RESOLVED]: "Resolved",
+}
+
+export const INQUIRY_STATUS_COLORS: Record<InquiryStatus, string> = {
+  [InquiryStatus.OPEN]: "bg-yellow-100 text-yellow-800",
+  [InquiryStatus.RESOLVED]: "bg-green-100 text-green-800",
+}
 
 export const DEGREE_OPTIONS = ["BSc", "MSc", "PhD", "PostDoc", "Other"] as const

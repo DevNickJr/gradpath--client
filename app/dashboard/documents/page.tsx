@@ -90,7 +90,11 @@ export default function DocumentsPage() {
                       <Button
                         variant="destructive"
                         size="icon-sm"
-                        onClick={() => handleDelete(doc.id)}
+                        onClick={(e) => {
+                          e.preventDefault()
+                          e.stopPropagation()
+                          handleDelete(doc.id)
+                        }}
                         disabled={isDeleting}
                       >
                         <Trash2 className="h-3.5 w-3.5" />

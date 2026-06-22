@@ -14,6 +14,7 @@ import {
   FileText,
   Bell,
   Plus,
+  MessageSquare,
 } from "lucide-react"
 import { buttonVariants } from "@/components/ui/button"
 
@@ -24,6 +25,7 @@ const SIDEBAR_LINKS = [
   { href: ROUTES.DASHBOARD_SAVED, label: "Saved", icon: Heart },
   { href: ROUTES.DASHBOARD_APPLICATIONS, label: "Applications", icon: ClipboardList },
   { href: ROUTES.DASHBOARD_DOCUMENTS, label: "Documents", icon: FileText },
+  { href: ROUTES.DASHBOARD_INQUIRIES, label: "Inquiries", icon: MessageSquare },
   { href: ROUTES.DASHBOARD_NOTIFICATIONS, label: "Notifications", icon: Bell },
 ]
 
