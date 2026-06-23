@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect } from "react"
-import { useRouter } from "next/navigation"
+import { usePathname, useRouter, useSearchParams } from "next/navigation"
 import { useAuth } from "@/hooks/use-auth"
 import { ROUTES } from "@/lib/constants"
 import { Navbar } from "@/components/layout/navbar"
@@ -11,10 +11,14 @@ import { PageLoader } from "@/components/shared/loading-spinner"
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   const { isAuthenticated, isLoading } = useAuth()
   const router = useRouter()
+  const pathname = usePathname();
+  const searchParams = useSearchParams(); 
+  const queryString = searchParams.toString();
+  const completePath = queryString ? `${pathname}?${queryString}` : pathname;
 
   useEffect(() => {
     if (!isLoading && !isAuthenticated) {
-      router.push(ROUTES.LOGIN)
+      router.push(`${ROUTES.LOGIN}?path=${completePath}`)
     }
   }, [isAuthenticated, isLoading, router])
 

@@ -37,9 +37,9 @@ export function HeroSection() {
               <Search className="h-4 w-4" />
               Explore Opportunities
             </Button>
-            <Button size="lg" variant="outline" onClick={() => router.push(ROUTES.DASHBOARD_NEW_OPPORTUNITY)} className="gap-2">
+            <Button size="lg" variant="outline" onClick={() => router.push(ROUTES.DASHBOARD_NEW_DOCUMENT)} className="gap-2">
               <Plus className="h-4 w-4" />
-              Post an Opportunity
+              Create Application Docs with AI
             </Button>
           </div>
         </motion.div>
