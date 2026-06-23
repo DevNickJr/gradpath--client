@@ -22,7 +22,7 @@ export function LoginForm() {
   const [password, setPassword] = useState("")
   const [rememberMe, setRememberMe] = useState(false)
   const searchParams = useSearchParams(); 
-  const prevPath = searchParams.get('path')
+  const prevPath = searchParams.get('path') || ''
 
 
   const handleSubmit = async (e: React.FormEvent) => {

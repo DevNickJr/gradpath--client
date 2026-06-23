@@ -21,7 +21,7 @@ export function RegisterForm() {
   const [password, setPassword] = useState("")
   const [confirmPassword, setConfirmPassword] = useState("")
   const searchParams = useSearchParams(); 
-  const prevPath = searchParams.get('path')
+  const prevPath = searchParams.get('path') || ''
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
