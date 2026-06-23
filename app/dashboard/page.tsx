@@ -82,7 +82,7 @@ export default function DashboardPage() {
         </p>
       </div>
 
-      {!user?.profile?.firstName && (
+      {!(user?.profile?.firstName && user?.profile?.phoneNumber) && (
         <Card className="border-dashed border-2 border-primary/30 bg-primary/5">
           <CardContent className="flex items-center gap-4 pt-4">
             <UserCircle className="h-10 w-10 text-primary shrink-0" />
