@@ -20,6 +20,11 @@ import type { GenerateDocumentRequest } from "@/types/document"
 import type { Document } from "@/types/document"
 import { useSearchParams } from "next/navigation"
 import Link from "next/link"
+import Markdown from "react-markdown"
+import { useRef } from "react"
+import { useDocument } from "@/hooks/use-documents"
+import { useReactToPrint } from "react-to-print";
+import { toast } from "sonner"
 
 const PROMPT_PLACEHOLDERS: Record<DocumentType, string> = {
   [DocumentType.CV]:
@@ -44,6 +49,35 @@ export function DocumentGenerator() {
   const [generatedDocument, setGeneratedDocument] = useState<Document | null>(null)
   
   const { mutate: generateDocument, isPending } = useGenerateDocument()
+       
+  const contentRef = useRef<HTMLDivElement>(null);
+  
+  // 2. Set up the print hook
+  const handlePrint = useReactToPrint({
+    contentRef,
+    documentTitle: generatedDocument?.title || "Document",
+    onAfterPrint: () => {
+      toast.success("Document printed successfully!");
+    },
+    onBeforePrint: async () => {
+      toast.success("Preparing document for printing...");
+    },
+    onPrintError: async (error) => {
+      toast.error("Failed to print document.");
+    },
+    pageStyle: `
+      @page { 
+        size: auto; 
+        margin: 0mm; /* Forces browser headers and footers to disappear */
+      } 
+      @media print { 
+        body { 
+          padding: 20mm; /* Re-establishes your printable document margins safely */
+        } 
+    }
+    `,
+  });
+
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
@@ -185,11 +219,17 @@ export function DocumentGenerator() {
             </div>
           </CardHeader>
           <CardContent>
-            <div className="rounded-md bg-muted/50 p-4">
-              <pre className="whitespace-pre-wrap text-sm leading-relaxed font-sans">
-                {generatedDocument.content}
-              </pre>
+            <div className="rounded-md p-4 prose" ref={contentRef}>
+              <Markdown>
+                  {generatedDocument.content}
+              </Markdown>
             </div>
+            <Button 
+              onClick={() => handlePrint()} 
+              className="px-4 py-2 mt-4"
+            >
+              Print Document
+            </Button>
           </CardContent>
         </Card>
       )}

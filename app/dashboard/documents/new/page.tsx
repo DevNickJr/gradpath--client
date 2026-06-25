@@ -4,7 +4,9 @@ import { DocumentGenerator } from "@/components/documents/document-generator"
 import { ROUTES } from "@/lib/constants"
 import Link from "next/link"
 
+
 export default function NewDocumentPage() {
+ 
   return (
     <div className="space-y-6">
       <div>
