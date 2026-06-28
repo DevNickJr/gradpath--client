@@ -22,11 +22,12 @@ import type { OpportunityFilters } from "@/types/opportunity"
 interface OpportunityFiltersProps {
   filters: OpportunityFilters
   onChange: (filters: OpportunityFilters) => void
+  forMobile?: boolean
 }
 
-export function OpportunityFiltersComponent({ filters, onChange }: OpportunityFiltersProps) {
+export function OpportunityFiltersComponent({ filters, onChange, forMobile }: OpportunityFiltersProps) {
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+    <div className={forMobile ? 'md:hidden overflow-y-auto h-full p-4 text-sm' : "hidden md:grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"}>
       <div className="space-y-1.5">
         <Label htmlFor="search">Search</Label>
         <Input

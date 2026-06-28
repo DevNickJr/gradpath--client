@@ -1,6 +1,6 @@
 "use client"
 
-import { Suspense, useState, useCallback } from "react"
+import { Suspense, useState, useCallback, useRef, useEffect } from "react"
 import { useSearchParams, useRouter } from "next/navigation"
 import { GraduationCap } from "lucide-react"
 import { useOpportunities } from "@/hooks/use-opportunities"
@@ -10,6 +10,7 @@ import { Pagination } from "@/components/shared/pagination"
 import { PageLoader } from "@/components/shared/loading-spinner"
 import type { OpportunityFilters } from "@/types/opportunity"
 import { DegreeLevel, OpportunityType, FundingType } from "@/lib/constants"
+import OpportunityMobileFilter from "@/components/opportunities/opportunity-mobile-filter"
 
 function parseFiltersFromParams(searchParams: URLSearchParams): OpportunityFilters {
   return {
@@ -45,8 +46,27 @@ function OpportunitiesContent() {
   const [filters, setFilters] = useState<OpportunityFilters>(() =>
     parseFiltersFromParams(searchParams)
   )
+  const [apiFilters, setAPIFilters] = useState<OpportunityFilters>(() =>
+    parseFiltersFromParams(searchParams)
+  )
 
-  const { data, isLoading } = useOpportunities(filters)
+  let timer = useRef<NodeJS.Timeout | null>(null);
+
+  useEffect(() => {
+    if (timer.current) clearTimeout(timer.current)
+    timer.current = setTimeout(() => {
+      setAPIFilters((prev) => ({ 
+        ...prev,
+        ...filters, 
+        page: filters.page ?? 1, 
+        limit: filters.limit ?? 12,
+        sortBy: filters.sortBy ?? "createdAt",
+        sortOrder: filters.sortOrder ?? "DESC" ,
+      }))
+    }, 600) // 600ms debounce
+  }, [filters])
+
+  const { data, isLoading } = useOpportunities(apiFilters)
 
   const handleFiltersChange = useCallback(
     (newFilters: OpportunityFilters) => {
@@ -56,6 +76,10 @@ function OpportunitiesContent() {
     },
     [router]
   )
+
+  const resetFilters = useCallback(() => {
+    setFilters({ page: 1, limit: 12, sortBy: "createdAt", sortOrder: "DESC" })
+  }, [])
 
   const handlePageChange = useCallback(
     (page: number) => {
@@ -81,6 +105,11 @@ function OpportunitiesContent() {
       </div>
 
       <OpportunityFiltersComponent filters={filters} onChange={handleFiltersChange} />
+      <OpportunityMobileFilter 
+        filters={filters}
+        onFilterChange={handleFiltersChange}
+        onReset={resetFilters}
+      />
 
       {isLoading ? (
         <PageLoader />
