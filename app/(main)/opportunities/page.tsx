@@ -11,6 +11,7 @@ import { PageLoader } from "@/components/shared/loading-spinner"
 import type { OpportunityFilters } from "@/types/opportunity"
 import { DegreeLevel, OpportunityType, FundingType } from "@/lib/constants"
 import OpportunityMobileFilter from "@/components/opportunities/opportunity-mobile-filter"
+import { sendGTMEvent } from "@next/third-parties/google"
 
 function parseFiltersFromParams(searchParams: URLSearchParams): OpportunityFilters {
   return {
@@ -51,6 +52,10 @@ function OpportunitiesContent() {
   )
 
   let timer = useRef<NodeJS.Timeout | null>(null);
+
+  useEffect(() => {
+    sendGTMEvent({ event: 'view', value: 'view_opportunities' })
+  }, [])
 
   useEffect(() => {
     if (timer.current) clearTimeout(timer.current)

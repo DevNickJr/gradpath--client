@@ -1,6 +1,6 @@
 "use client"
 
-import { use } from "react"
+import { use, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import {
   MapPin,
@@ -28,6 +28,7 @@ import {
 import { cn, formatDate, daysUntil } from "@/lib/utils"
 import Link from "next/link"
 import { CommentSection } from "@/components/comments/comment-section"
+import { sendGTMEvent } from "@next/third-parties/google"
 
 interface OpportunityDetailPageProps {
   params: Promise<{ id: string }>
@@ -42,6 +43,10 @@ export default function OpportunityDetailPage({ params }: OpportunityDetailPageP
   const { data: saveStatusData } = useSaveStatus(id)
   const { mutate: toggleSave, isPending: isSaving } = useToggleSave()
   const { mutate: createApplication, isPending: isCreatingApplication } = useCreateApplication()
+
+  useEffect(() => {
+    sendGTMEvent({ event: 'view', value: 'view_opportunity', pid: id })
+  }, [])
 
   if (isLoading) {
     return <PageLoader />

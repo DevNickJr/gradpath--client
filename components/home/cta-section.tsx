@@ -4,9 +4,15 @@ import { useRouter } from "next/navigation"
 import { ROUTES } from "@/lib/constants"
 import { Button } from "@/components/ui/button"
 import { GraduationCap } from "lucide-react"
+import { useEffect } from "react"
+import { sendGTMEvent } from "@next/third-parties/google"
 
 export function CtaSection() {
   const router = useRouter()
+
+  useEffect(() => {
+    sendGTMEvent({ event: 'view', value: 'view_home' })
+  }, [])
 
   return (
     <section className="py-16 md:py-24">
