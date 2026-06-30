@@ -16,6 +16,7 @@ export interface User {
   email: string
   role: RolesEnum
   isVerified: boolean
+  subscriptionPlan?: "free" | "basic" | "pro"
   profile?: UserProfile | null
   createdAt: string
   updatedAt?: string

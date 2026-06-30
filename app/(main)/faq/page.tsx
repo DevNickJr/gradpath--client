@@ -12,7 +12,7 @@ const FAQS = [
   },
   {
     question: "Is GradPath free to use?",
-    answer: "Yes! Browsing opportunities, saving them, and tracking your applications is completely free. Our AI document generation features are also available to all registered users.",
+    answer: "GradPath offers a free plan that includes browsing opportunities, saving them, tracking applications, and up to 3 AI document generations per month with 1 recommendation request. For unlimited document generation, unlimited recommendations, and cold email features, you can upgrade to our Pro plan at $9.99/month.",
   },
   {
     question: "How does the AI document generation work?",

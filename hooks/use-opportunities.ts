@@ -7,7 +7,7 @@ import type { OpportunityFilters, CreateOpportunityRequest, UpdateOpportunityReq
 
 export function useOpportunities(filters?: OpportunityFilters) {
   return useFetch({
-    queryKey: ["opportunities", JSON.stringify(filters)],
+    queryKey: ["opportunities", filters],
     queryFn: () => opportunityService.getOpportunities(filters)
   })
 }

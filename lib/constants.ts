@@ -23,6 +23,8 @@ export const ROUTES = {
   DASHBOARD_INQUIRIES: "/dashboard/inquiries",
   DASHBOARD_INQUIRY_NEW: "/dashboard/inquiries/new",
   DASHBOARD_INQUIRY_DETAIL: (id: string) => `/dashboard/inquiries/${id}`,
+  PRICING: "/pricing",
+  DASHBOARD_RECOMMENDATIONS: "/dashboard/recommendations",
 } as const
 
 export enum OpportunityType {
@@ -156,3 +158,8 @@ export const INQUIRY_STATUS_COLORS: Record<InquiryStatus, string> = {
 }
 
 export const DEGREE_OPTIONS = ["BSc", "MSc", "PhD", "PostDoc", "Other"] as const
+
+export enum SubscriptionPlan {
+  FREE = "free",
+  PRO = "pro",
+}

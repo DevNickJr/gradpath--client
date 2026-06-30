@@ -30,6 +30,7 @@ import {
   Info,
   Phone,
   Plus,
+  CreditCard,
 } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 
@@ -38,6 +39,7 @@ const NAV_LINKS = [
   { href: ROUTES.OPPORTUNITIES, label: "Opportunities", icon: Search },
   { href: ROUTES.ABOUT, label: "About", icon: Info },
   { href: ROUTES.CONTACT, label: "Contact", icon: Phone },
+  { href: ROUTES.PRICING, label: "Pricing", icon: CreditCard },
   { href: ROUTES.FAQ, label: "FAQ", icon: HelpCircle },
 ]
 

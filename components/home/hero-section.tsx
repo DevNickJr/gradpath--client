@@ -2,12 +2,15 @@
 
 import { useRouter } from "next/navigation"
 import { ROUTES } from "@/lib/constants"
+import { useStats } from "@/hooks/use-stats"
 import { Button } from "@/components/ui/button"
 import { GraduationCap, Search, Plus } from "lucide-react"
 import { motion } from "motion/react"
 
 export function HeroSection() {
   const router = useRouter()
+  const { data: statsResponse } = useStats()
+  const statsData = statsResponse?.data
 
   return (
     <section className="relative overflow-hidden bg-gradient-to-br from-background via-background to-muted py-20 md:py-32">
@@ -51,10 +54,10 @@ export function HeroSection() {
           className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-6 max-w-2xl mx-auto"
         >
           {[
-            { label: "Opportunities", value: "2,000+" },
-            { label: "Universities", value: "500+" },
-            { label: "Countries", value: "80+" },
-            { label: "Success Stories", value: "10,000+" },
+            { label: "Opportunities", value: statsData ? `${statsData.opportunities.toLocaleString()}+` : "..." },
+            { label: "Universities", value: statsData ? `${statsData.universities.toLocaleString()}+` : "..." },
+            { label: "Countries", value: statsData ? `${statsData.countries.toLocaleString()}+` : "..." },
+            { label: "Success Stories", value: "10+" },
           ].map((stat) => (
             <div key={stat.label} className="text-center">
               <p className="text-2xl md:text-3xl font-bold">{stat.value}</p>
@@ -64,9 +67,9 @@ export function HeroSection() {
         </motion.div>
       </div>
 
-      <div className="absolute inset-0 -z-10 overflow-hidden">
-        <div className="absolute top-1/4 -right-1/4 w-96 h-96 bg-primary/5 rounded-full blur-3xl" />
-        <div className="absolute bottom-1/4 -left-1/4 w-96 h-96 bg-primary/5 rounded-full blur-3xl" />
+      <div className="absolute inset-0 -z-10 md:z-10 overflow-hidden">
+        <div className="absolute top-1/4 -right-1/9 w-96 h-96 bg-primary/10 rounded-full blur-3xl" />
+        <div className="absolute bottom-1/4 -left-1/9 w-96 h-96 bg-primary/10 rounded-full blur-3xl" />
       </div>
     </section>
   )
