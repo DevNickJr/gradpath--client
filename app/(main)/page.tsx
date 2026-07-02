@@ -37,9 +37,9 @@ export default async function HomePage() {
     <>
       <HydrationBoundary state={dehydrate(queryClient)}>
         <HeroSection />
+        <FeaturedOpportunities />
       </HydrationBoundary>
 
-      <FeaturedOpportunities />
       <HowItWorks />
       <CtaSection />
     </>
