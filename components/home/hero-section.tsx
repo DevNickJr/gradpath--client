@@ -13,7 +13,7 @@ export function HeroSection() {
   const statsData = statsResponse?.data
 
   return (
-    <section className="relative overflow-hidden bg-gradient-to-br from-background via-background to-muted py-20 md:py-32">
+    <section className="relative overflow-hidden bg-linear-to-br from-background via-background to-muted py-20 md:py-32">
       <div className="container mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -54,9 +54,9 @@ export function HeroSection() {
           className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-6 max-w-2xl mx-auto"
         >
           {[
-            { label: "Opportunities", value: statsData ? `${statsData.opportunities.toLocaleString()}+` : "..." },
-            { label: "Universities", value: statsData ? `${statsData.universities.toLocaleString()}+` : "..." },
-            { label: "Countries", value: statsData ? `${statsData.countries.toLocaleString()}+` : "..." },
+            { label: "Opportunities", value: statsData ? `${statsData?.opportunities.toLocaleString()}+` : "..." },
+            { label: "Universities", value: statsData ? `${statsData?.universities.toLocaleString()}+` : "..." },
+            { label: "Countries", value: statsData ? `${statsData?.countries.toLocaleString()}+` : "..." },
             { label: "Success Stories", value: "10+" },
           ].map((stat) => (
             <div key={stat.label} className="text-center">
